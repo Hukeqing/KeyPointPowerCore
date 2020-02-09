@@ -70,10 +70,11 @@ void build_k_core_tree(int k, node_id n, Graph &graph, IndexTree &tree) {
         }
         min_id++;
     }
-
+//    cout << "Graph is disassembled to " << setw(10) << tree.tot << " part" << endl;
     map<node_id, int> part_pool;
     UnionFindSet UFS;
     UFS.init(n);
+    BEGIN_CLOCK(link, tree.tot)
     for (int i = tree.tot; i >=0; --i) {
         int cur_head = tree.nodeList[i].begin;
         for (edge_id j = graph.head[cur_head]; j != -1; j = edge[j].next)
@@ -95,6 +96,7 @@ void build_k_core_tree(int k, node_id n, Graph &graph, IndexTree &tree) {
             }
         }
         part_pool.insert({cur_head, i});
+        TRIGGER_CLOCK(link, tree.tot - i + 1, 100000)
     }
 }
 

@@ -39,6 +39,7 @@ struct binRead {
 int main(int argc, char **argv) {
     binRead bin(*(argv + 1) + string(".bin"));
     freopen(*(argv + 2), "r", stdin);
+    freopen(*(argv + 3), "w", stdout);
     node_id n;
     edge_id m;
     bin >> n >> m;
