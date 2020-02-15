@@ -38,8 +38,8 @@ struct binRead {
 
 int main(int argc, char **argv) {
     binRead bin(*(argv + 1) + string(".bin"));
-    freopen(*(argv + 2), "r", stdin);
-    freopen(*(argv + 3), "w", stdout);
+    freopen(*(argv + 2), "w", stdout);
+    cout << "Data name: " << *(argv + 1) << endl;
     node_id n;
     edge_id m;
     bin >> n >> m;
@@ -53,11 +53,13 @@ int main(int argc, char **argv) {
     }
     END_LOG_TIME(read, "Read Data")
     bin.close();
-    vector<IndexTree> Forest;
-    solve(n, graph, Forest);
-    node_id keyPoint;
-    int k;
-    bitset<MAX_NODE_COUNT> ans;
-    while(cin >> keyPoint >> k)
-        get_key_point_power_core(keyPoint, k, Forest, ans);
+    IndexTree *tree = nullptr;
+    solve(n, graph, tree);
+//    vector<IndexTree> Forest;
+//    solve(n, graph, Forest);
+//    node_id keyPoint;
+//    int k;
+//    bitset<MAX_NODE_COUNT> ans;
+//    while(cin >> keyPoint >> k)
+//        get_key_point_power_core(keyPoint, k, Forest, ans);
 }

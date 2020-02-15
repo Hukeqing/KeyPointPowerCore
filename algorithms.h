@@ -75,7 +75,7 @@ void build_k_core_tree(int k, node_id n, Graph &graph, IndexTree &tree) {
     UnionFindSet UFS;
     UFS.init(n);
     BEGIN_CLOCK(link, tree.tot)
-    for (int i = tree.tot; i >=0; --i) {
+    for (int i = tree.tot; i >= 0; --i) {
         int cur_head = tree.nodeList[i].begin;
         for (edge_id j = graph.head[cur_head]; j != -1; j = edge[j].next)
             UFS.unite(cur_head, edge[j].to);
@@ -110,6 +110,23 @@ void solve(int n, Graph &graph, vector<IndexTree> &trees) {
         build_k_core_tree(k, n, graph, trees.back());
         END_LOG_TIME(round, "Build " + to_string(k) + "-Tree")
         k++;
+    }
+    END_LOG_TIME(solve, "Build Forest")
+}
+
+void solve(int n, Graph &graph, IndexTree *tree) {
+    BEGIN_LOG_TIME(solve)
+    int k = 2;
+    while (build_k_core(k, n, graph)) {
+//        trees.emplace_back();
+//        trees.back().init(n);
+        tree = new IndexTree();
+        tree->init(n);
+        BEGIN_LOG_TIME(round)
+        build_k_core_tree(k, n, graph, *tree);
+        END_LOG_TIME(round, "Build " + to_string(k) + "-Tree")
+        k++;
+        delete tree;
     }
     END_LOG_TIME(solve, "Build Forest")
 }
