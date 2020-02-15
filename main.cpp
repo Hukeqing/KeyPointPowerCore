@@ -29,12 +29,12 @@ struct binRead {
         d = _a.d;
         return *this;
     }
+
     // NOLINTNEXTLINE
     operator void *() const {
-        return inFile.fail() ? (void*)nullptr : (void*)1;
+        return inFile.fail() ? (void *) nullptr : (void *) 1;
     }
 };
-
 
 int main(int argc, char **argv) {
     binRead bin(*(argv + 1) + string(".bin"));
