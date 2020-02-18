@@ -7,6 +7,18 @@
 
 #include "database.h"
 
+void get_key_point_power_core(node_id keyPoint, int k, const IndexTree &tree, bitset<MAX_NODE_COUNT> &out) {
+    out.reset();
+    BEGIN_LOG_TIME(ans)
+    int cur_node = tree.node2Index[keyPoint];
+    for (cur_node = tree.nodeList[cur_node].father; cur_node != -1; cur_node = tree.nodeList[cur_node].father) {
+        out.set(tree.nodeList[cur_node].begin);
+        for (auto &item : tree.nodeList[cur_node].nodeList)
+            out.set(item);
+    }
+    END_LOG_TIME(ans, "Get Answer of keyPoint = " + to_string(keyPoint) + ", k = " + to_string(k));
+}
+
 bool build_k_core(int k, node_id n, Graph &graph) {
     queue<node_id> q;
     bitset<MAX_NODE_COUNT> visit;
@@ -125,23 +137,21 @@ void solve(int n, Graph &graph, IndexTree *tree) {
         BEGIN_LOG_TIME(round)
         build_k_core_tree(k, n, graph, *tree);
         END_LOG_TIME(round, "Build " + to_string(k) + "-Tree")
+        default_random_engine e(time(nullptr));
+        uniform_int_distribution<unsigned> u(0, n);
+        auto dice = bind(u, e);
+        bitset<MAX_NODE_COUNT> out;
+        for (int i = 0; i < 10; ++i) {
+            int cur = dice();
+            while (graph.nodeDeleted.test(cur)) {
+                cur = dice();
+            }
+            get_key_point_power_core(cur, k, *tree, out);
+        }
         k++;
-        delete tree;
+        delete &tree;
     }
     END_LOG_TIME(solve, "Build Forest")
-}
-
-void get_key_point_power_core(node_id keyPoint, int k, const vector<IndexTree> &trees, bitset<MAX_NODE_COUNT> &out) {
-    BEGIN_LOG_TIME(ans)
-    const IndexTree &tree = trees[k - 2];
-    out.reset();
-    int cur_node = tree.node2Index[keyPoint];
-    for (cur_node = tree.nodeList[cur_node].father; cur_node != -1; cur_node = tree.nodeList[cur_node].father) {
-        out.set(tree.nodeList[cur_node].begin);
-        for (auto &item : tree.nodeList[cur_node].nodeList)
-            out.set(item);
-    }
-    END_LOG_TIME(ans, "Get Answer of keyPoint = " + to_string(keyPoint) + ", k = " + to_string(k));
 }
 
 #endif //KEY_POINT_POWER_CORE_ALGORITHMS_H
