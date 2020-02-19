@@ -149,7 +149,7 @@ void solve(int n, Graph &graph, IndexTree *tree) {
             get_key_point_power_core(cur, k, *tree, out);
         }
         k++;
-        delete &tree;
+        delete tree;
     }
     END_LOG_TIME(solve, "Build Forest")
 }
