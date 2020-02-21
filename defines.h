@@ -12,8 +12,8 @@ using namespace std;
 typedef int node_id;
 typedef int edge_id;
 
-const int MAX_NODE_COUNT = 1200000;
-const int MAX_EDGE_COUNT = 3000000;
+const int MAX_NODE_COUNT = 4000000;
+const int MAX_EDGE_COUNT = 117200000;
 
 const int NODE_NULL = -1;
 const int EDGE_NULL = -1;
