@@ -1,9 +1,8 @@
 //
 // Created by HKQ on 2020/2/2.
 //
-#include <bits/stdc++.h>
 
-#include <utility>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -28,7 +27,7 @@ void edge2bin(char *file_name) {
 
 void bin2edge(char *file_name) {
     ifstream inFile(file_name + string(".bin"), ios::in | ios::binary);
-    ofstream outFile(file_name + string("_test.edge"), ios::out);
+    ofstream outFile(file_name + string(".edge"), ios::out);
     data a{};
     bool ret = true;
     while (inFile.read(a.s, lenth)) {
